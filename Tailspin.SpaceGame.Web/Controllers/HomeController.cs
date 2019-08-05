@@ -47,7 +47,7 @@ namespace TailSpin.SpaceGame.Web.Controllers
                     "Trio"
                 },
 
-                    GameRegions = new List<string>()
+                GameRegions = new List<string>()
                 {
                     "Milky Way",
                     "Andromeda",
@@ -56,7 +56,11 @@ namespace TailSpin.SpaceGame.Web.Controllers
                     "Messier 82",
                 }
             };
+            return await NewMethod1(page, pageSize, mode, region, vm);
+        }
 
+        private async Task<IActionResult> NewMethod1(int page, int pageSize, string mode, string region, LeaderboardViewModel vm)
+        {
             try
             {
                 // Form the query predicate.
@@ -105,7 +109,7 @@ namespace TailSpin.SpaceGame.Web.Controllers
 
                 return View(vm);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View(vm);
             }
@@ -114,12 +118,17 @@ namespace TailSpin.SpaceGame.Web.Controllers
         [Route("/profile/{id}")]
         public async Task<IActionResult> Profile(string id, string rank="")
         {
+            return await NewMethod(id, rank);
+        }
+
+        private async Task<IActionResult> NewMethod(string id, string rank)
+        {
             try
             {
                 // Fetch the user profile with the given identifier.
                 return View(new ProfileViewModel { Profile = await _profileRespository.GetItemAsync(id), Rank = rank });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("/");
             }
